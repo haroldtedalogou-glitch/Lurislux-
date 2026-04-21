@@ -2027,7 +2027,7 @@
               <div class="member-name">Harold Ted Alogou</div>
               <div class="member-domain">Juriste privatiste · Université d'Abomey-Calavi</div>
               <div class="member-bio">
-                Passionné avant tout par les <strong>finances publiques</strong> et le <strong>droit pénal des affaires</strong>, Harold explore les zones grises de l'argent public et de la responsabilité pénale des acteurs économiques. Il nourrit également un intérêt croissant, encore en construction, pour la <em>légistique</em> — cet art exigeant de donner à la loi son plein pouvoir normatif. Il est le porteur de l'idée et l'initiateur du projet Lurislux
+                Passionné avant tout par les <strong>finances publiques</strong> et le <strong>droit pénal des affaires</strong>, Harold explore les zones grises de l'argent public et de la responsabilité pénale des acteurs économiques. Il nourrit également un intérêt croissant, encore en construction, pour la <em>légistique</em> — cet art exigeant de donner à la loi son plein pouvoir normatif. Fondateur de Lurislux et ambassadeur du Bénin Legal Summit 2026.
               </div>
               <div class="member-tags">
                 <span class="member-tag">Finances publiques</span>
@@ -2770,6 +2770,7 @@
         if (btn.querySelector('span')) btn.querySelector('span').textContent = 'Envoi…';
 
         // ── Envoi Netlify Forms (zéro backend requis) ──
+        // Netlify Forms renvoie du HTML, pas du JSON — on vérifie juste res.ok
         var formData = new FormData();
         formData.append('form-name', 'contact');
         formData.append('name',    data.name);
@@ -2783,21 +2784,17 @@
           body: new URLSearchParams(formData).toString(),
         })
           .then(function (res) {
-            if (!res.ok) return res.json().then(function(d){ throw new Error(d.error || 'Erreur serveur'); });
-            return res.json();
-          })
-          .then(function () {
+            if (!res.ok) throw new Error('Erreur réseau (' + res.status + ')');
+            // Succès — Netlify renvoie 200 avec une page HTML de confirmation
             form.style.display = 'none';
             if (formSuccess) {
               formSuccess.style.display = 'block';
-              // Utiliser textContent pour éviter XSS
               formSuccess.textContent = '✦  Votre message a été envoyé. Nous vous répondrons dans les meilleurs délais.';
             }
           })
           .catch(function (err) {
             btn.disabled = false;
             if (btn.querySelector('span')) btn.querySelector('span').textContent = 'Envoyer le message';
-            // Afficher l'erreur en textContent
             var errBox = form.querySelector('.form-send-error');
             if (!errBox) {
               errBox = document.createElement('p');
@@ -2805,7 +2802,7 @@
               errBox.style.cssText = 'color:#e55;font-size:.8rem;margin-top:.5rem;';
               form.appendChild(errBox);
             }
-            errBox.textContent = 'Erreur : ' + err.message + '. Veuillez réessayer ou nous écrire directement.';
+            errBox.textContent = 'Erreur : ' + err.message + '. Veuillez réessayer ou écrire à lurislux01@gmail.com';
           });
       });
     }
