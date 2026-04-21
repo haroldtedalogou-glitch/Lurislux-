@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lurislux — Le droit expliqué avec puissance</title>
+  <meta name="description" content="Lurislux transforme le droit en arme intellectuelle. Contenus juridiques modernes, pédagogiques et percutants pour tous les citoyens béninois." />
+  <meta name="theme-color" content="#0A0A0A" />
+  <meta property="og:title" content="Lurislux — Le droit expliqué avec puissance" />
+  <meta property="og:description" content="Comprendre le droit, c'est maîtriser le monde." />
+
+  <!-- ═══ SECURITY HEADERS ════════════════════════════════════════════════
+       La CSP et tous les security headers sont définis dans netlify.toml.
+       Ils s'appliquent au niveau du serveur Netlify, ce qui est la seule
+       méthode fiable et compatible avec un script inline monofichier.
+       Une meta CSP avec script-src 'self' bloquerait le script inline
+       et détruirait toutes les animations — ne pas ajouter ici.
+  ════════════════════════════════════════════════════════════════════ -->
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       VARIABLES & RESET
+    ═══════════════════════════════════════════════ */
+    :root {
+      --black:       #0A0A0A;
+      --black-mid:   #111111;
+      --black-soft:  #1A1A1A;
+      --black-card:  #141414;
+      --gold:        #D4AF37;
+      --gold-light:  #E8CA6A;
+      --gold-dim:    #A8891E;
+      --white:       #FFFFFF;
+      --white-soft:  #F5F2EC;
+      --grey:        #8A8A8A;
+      --grey-light:  #BBBBBB;
+      --border:      rgba(212,175,55,0.15);
+      --border-soft: rgba(255,255,255,0.06);
+
+      --font-display: 'Cinzel', serif;
+      --font-serif:   'Cormorant Garamond', serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+      --section-pad: clamp(4rem, 8vw, 8rem);
+      --max-w: 1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--black);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      cursor: none;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: none; border: none; background: none; font-family: var(--font-body); }
+    input, textarea { font-family: var(--font-body); }
+    ul { list-style: none; }
+
+    /* ═══════════════════════════════════════════════
+       CUSTOM CURSOR
+    ═══════════════════════════════════════════════ */
+    .cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s var(--ease-out);
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(212,175,55,0.5);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.25s var(--ease-out);
+    }
+    .cursor-ring.hovered {
+      width: 56px; height: 56px;
+      background: rgba(212,175,55,0.08);
+      border-color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ═══════════════════════════════════════════════
+       SELECTION
+    ═══════════════════════════════════════════════ */
+    ::selection {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SCROLLBAR
+    ═══════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+    /* ═══════════════════════════════════════════════
+       GOLD LINE UTILITY
+    ═══════════════════════════════════════════════ */
+    .gold-line {
+      display: block;
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 1.5rem;
+    }
+    .gold-line.center { margin-left: auto; margin-right: auto; }
+
+    /* ═══════════════════════════════════════════════
+       SECTION LABEL
+    ═══════════════════════════════════════════════ */
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HEADER / NAVBAR
+    ═══════════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.4s var(--ease-out);
+      border-bottom: 1px solid transparent;
+    }
+    #header.scrolled {
+      background: rgba(10,10,10,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: var(--border);
+      padding-top: 0.9rem;
+      padding-bottom: 0.9rem;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .nav-logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--grey-light);
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .btn-cta {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--gold);
+      padding: 0.65rem 1.5rem;
+      border-radius: 0;
+      transition: all 0.3s var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.35s var(--ease-in-out);
+    }
+    .btn-cta:hover::before { transform: scaleX(1); transform-origin: left; }
+    .btn-cta span { position: relative; z-index: 1; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: none;
+      z-index: 1100;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px; height: 1.5px;
+      background: var(--white);
+      transition: all 0.35s var(--ease-out);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 1050;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease-out);
+    }
+    .mobile-menu.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .mobile-menu a {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu .btn-cta { font-size: 0.7rem; padding: 0.8rem 2rem; }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 8rem 2rem 5rem;
+    }
+
+    /* Canvas particles */
+    #particle-canvas {
+      position: absolute;
+      inset: 0;
+      opacity: 0.5;
+    }
+
+    /* Gradient overlay */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(212,175,55,0.07) 0%, transparent 70%),
+                  linear-gradient(to bottom, transparent 60%, var(--black) 100%);
+    }
+
+    /* Decorative vertical lines */
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-lines::before,
+    .hero-lines::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(212,175,55,0.18), transparent);
+    }
+    .hero-lines::before { left: 15%; }
+    .hero-lines::after { right: 15%; }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 300;
+      color: var(--grey);
+      letter-spacing: 0.05em;
+      margin-bottom: 3.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--gold);
+      padding: 1rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s var(--ease-out);
+      display: inline-block;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.35s var(--ease-in-out);
+    }
+    .btn-primary:hover::after { transform: scaleX(1); transform-origin: left; }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-ghost {
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: transparent;
+      padding: 1rem 2.5rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s var(--ease-out);
+      display: inline-block;
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.5;
+    }
+    .scroll-indicator span {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollDown 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      51% { transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       MARQUEE BAND
+    ═══════════════════════════════════════════════ */
+    .marquee-band {
+      background: var(--gold);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--black);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .marquee-item::after {
+      content: '◆';
+      font-size: 0.4rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTIONS COMMON
+    ═══════════════════════════════════════════════ */
+    section {
+      padding: var(--section-pad) clamp(1.5rem, 5vw, 5rem);
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .full-bleed {
+      max-width: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .full-bleed-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 5rem);
+    }
+
+    .section-header {
+      margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    }
+    .section-header.center { text-align: center; }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .section-subtitle {
+      margin-top: 1rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.8;
+      max-width: 520px;
+    }
+    .section-header.center .section-subtitle { margin: 1rem auto 0; }
+
+    /* ═══════════════════════════════════════════════
+       ARTICLES SECTION
+    ═══════════════════════════════════════════════ */
+    #articles {
+      background: var(--black-mid);
+      max-width: none;
+      padding: var(--section-pad) clamp(1.5rem, 5vw, 5rem);
+    }
+    #articles .inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 1.5px;
+      background: var(--border-soft);
+      border: 1px solid var(--border-soft);
+    }
+
+    .article-card {
+      background: var(--black-card);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s;
+    }
+    .article-card:hover { background: var(--black-soft); }
+
+    .article-card-img {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+    .article-card-img-inner {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      transition: transform 0.6s var(--ease-out);
+    }
+    .article-card:hover .article-card-img-inner { transform: scale(1.07); }
+
+    /* Placeholder art for articles */
+    .art-1 { background: linear-gradient(135deg, #0d0d0d 0%, #1a1408 100%); }
+    .art-2 { background: linear-gradient(135deg, #080d10 0%, #0d1a10 100%); }
+    .art-3 { background: linear-gradient(135deg, #100808 0%, #1a100d 100%); }
+    .art-4 { background: linear-gradient(135deg, #0a0a12 0%, #0d0a1a 100%); }
+    .art-5 { background: linear-gradient(135deg, #0d1008 0%, #121a08 100%); }
+    .art-6 { background: linear-gradient(135deg, #100a08 0%, #1a1208 100%); }
+
+    .article-card-art {
+      width: 100%; height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .article-card-art svg {
+      width: 100%; height: 100%;
+      opacity: 0.35;
+    }
+    .article-card-art .art-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    .article-card-body {
+      padding: 1.75rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .article-tag {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .article-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .article-excerpt {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .article-footer {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-soft);
+    }
+    .article-date {
+      font-size: 0.72rem;
+      color: var(--grey);
+      letter-spacing: 0.05em;
+    }
+    .btn-read {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.3s var(--ease-out);
+    }
+    .btn-read:hover { gap: 0.8rem; }
+    .btn-read svg { width: 14px; height: 14px; }
+
+    /* ═══════════════════════════════════════════════
+       CONCEPTS SECTION
+    ═══════════════════════════════════════════════ */
+    #concepts {
+      position: relative;
+      overflow: hidden;
+    }
+    #concepts::before {
+      content: 'LEX';
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 20vw, 18rem);
+      font-weight: 700;
+      color: var(--border);
+      pointer-events: none;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 2rem;
+      position: relative;
+    }
+
+    .concept-card {
+      background: var(--black-soft);
+      border: 1px solid var(--border-soft);
+      padding: 2rem 1.75rem;
+      transition: all 0.35s var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .concept-card:hover {
+      border-color: var(--border);
+      background: #1c1c1c;
+    }
+    .concept-card:hover::before { transform: scaleX(1); }
+
+    .concept-icon {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+    .concept-icon svg { width: 20px; height: 20px; }
+
+    .concept-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+    .concept-body {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════
+       QUOTE SECTION
+    ═══════════════════════════════════════════════ */
+    #quote {
+      background: var(--black-mid);
+      max-width: none;
+      text-align: center;
+      padding: var(--section-pad) clamp(2rem, 8vw, 10rem);
+    }
+    .quote-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .quote-mark {
+      font-family: var(--font-serif);
+      font-size: clamp(6rem, 15vw, 10rem);
+      line-height: 0.6;
+      color: var(--gold);
+      opacity: 0.25;
+      display: block;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    .quote-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+    }
+    .quote-text em { color: var(--gold); font-style: normal; }
+    .quote-author {
+      margin-top: 2.5rem;
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════════════
+       MEMBERS / BUREAU SECTION
+    ═══════════════════════════════════════════════ */
+    #members {
+      background: var(--black);
+      max-width: none;
+      padding: var(--section-pad) clamp(1.5rem, 5vw, 5rem);
+    }
+    #members .inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .bureau-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    }
+
+    /* Tab switcher */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border-soft);
+    }
+    .tab {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.25rem;
+      color: var(--grey);
+      background: transparent;
+      border: none;
+      cursor: none;
+      transition: all 0.3s;
+      border-right: 1px solid var(--border-soft);
+    }
+    .tab:last-child { border-right: none; }
+    .tab.active {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .tab:not(.active):hover { color: var(--white); background: var(--black-soft); }
+
+    /* Panel */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Bureau cards */
+    .bureau-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+      gap: 1px;
+      background: var(--border-soft);
+    }
+
+    .member-card {
+      background: var(--black-card);
+      padding: 2rem 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .member-card:hover { background: var(--black-soft); }
+
+    .member-card.president {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      align-items: start;
+      background: linear-gradient(135deg, #141208 0%, #0f0f0f 100%);
+      border-bottom: 2px solid var(--gold);
+    }
+    @media (max-width: 600px) {
+      .member-card.president { grid-template-columns: 1fr; }
+    }
+
+    .member-avatar {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--black-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .member-card.president .member-avatar {
+      width: 72px; height: 72px;
+      border-color: var(--gold);
+      font-size: 1.3rem;
+    }
+
+    .member-role {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .member-name {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+    .member-card.president .member-name {
+      font-size: 1.6rem;
+    }
+    .member-domain {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--grey-light);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .member-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+    .member-tag {
+      font-family: var(--font-display);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 0.25rem 0.6rem;
+    }
+    .member-bio {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
+      margin-top: 0.75rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       ABOUT SECTION
+    ═══════════════════════════════════════════════ */
+    #about {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 6vw, 6rem);
+      align-items: center;
+    }
+    @media (max-width: 760px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-visual {
+      position: relative;
+      height: 480px;
+    }
+    .about-frame {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--border);
+      background: var(--black-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .about-frame-inner {
+      position: absolute;
+      inset: 1.5rem;
+      border: 1px solid rgba(212,175,55,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .about-big-text {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.15;
+      letter-spacing: 0.15em;
+      text-align: center;
+      line-height: 1;
+    }
+    .about-corner {
+      position: absolute;
+      width: 20px; height: 20px;
+    }
+    .about-corner.tl { top: 0; left: 0; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+    .about-corner.tr { top: 0; right: 0; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+    .about-corner.bl { bottom: 0; left: 0; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+    .about-corner.br { bottom: 0; right: 0; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+    .about-stat {
+      position: absolute;
+      background: rgba(10,10,10,0.9);
+      border: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+    }
+    .about-stat.s1 { bottom: 2rem; left: -1.5rem; }
+    .about-stat.s2 { top: 2rem; right: -1.5rem; }
+    @media (max-width: 760px) {
+      .about-stat.s1 { left: 1rem; }
+      .about-stat.s2 { right: 1rem; }
+    }
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--grey);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about-text-col .section-label { margin-bottom: 0.5rem; }
+    .about-text-col .section-title { margin-bottom: 1.5rem; }
+    .about-body {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--grey-light);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+    .about-body strong {
+      color: var(--white);
+      font-weight: 400;
+    }
+    .about-body em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .about-values {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border-soft);
+    }
+    .about-value {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-soft);
+      transition: background 0.3s;
+    }
+    .about-value:last-child { border-bottom: none; }
+    .about-value:hover { background: var(--black-soft); }
+    .about-value-num {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gold);
+      opacity: 0.5;
+      min-width: 2rem;
+    }
+    .about-value-text {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--grey-light);
+    }
+    .about-value-text strong { color: var(--white); font-weight: 500; }
+
+    /* ═══════════════════════════════════════════════
+       SECOND QUOTE STRIP
+    ═══════════════════════════════════════════════ */
+    #quote2 {
+      max-width: none;
+      background: var(--gold);
+      padding: 4rem clamp(2rem, 6vw, 8rem);
+      text-align: center;
+    }
+    .quote2-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.3;
+    }
+    .quote2-sub {
+      margin-top: 1rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: rgba(0,0,0,0.55);
+      letter-spacing: 0.08em;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONTACT SECTION
+    ═══════════════════════════════════════════════ */
+    #contact {
+      background: var(--black-mid);
+      max-width: none;
+      padding: var(--section-pad) clamp(1.5rem, 5vw, 5rem);
+    }
+    #contact .inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: clamp(2.5rem, 6vw, 6rem);
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      #contact .inner { grid-template-columns: 1fr; }
+    }
+
+    .contact-info .section-title { margin-top: 0.5rem; }
+    .contact-info-body {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.8;
+      margin: 1.5rem 0 2rem;
+    }
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .contact-detail-icon {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .contact-detail-icon svg { width: 16px; height: 16px; }
+    .contact-detail-text {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--grey-light);
+    }
+    .contact-detail-text strong {
+      display: block;
+      color: var(--white);
+      font-weight: 400;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.15rem;
+    }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .form-input,
+    .form-textarea {
+      background: var(--black-soft);
+      border: 1px solid var(--border-soft);
+      color: var(--white);
+      padding: 0.9rem 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.3s;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--grey);
+      opacity: 0.5;
+    }
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-textarea { resize: vertical; min-height: 140px; }
+
+    .form-error {
+      font-size: 0.72rem;
+      color: #e55;
+      display: none;
+    }
+    .form-group.error .form-input,
+    .form-group.error .form-textarea { border-color: #e55; }
+    .form-group.error .form-error { display: block; }
+
+    .form-submit {
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--gold);
+      padding: 1rem 2rem;
+      border: none;
+      cursor: none;
+      transition: all 0.35s var(--ease-out);
+      position: relative;
+      overflow: hidden;
+      align-self: flex-start;
+    }
+    .form-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.35s var(--ease-in-out);
+    }
+    .form-submit:hover::after { transform: scaleX(1); transform-origin: left; }
+    .form-submit span { position: relative; z-index: 1; }
+
+    .form-success {
+      display: none;
+      padding: 1.25rem;
+      border: 1px solid rgba(212,175,55,0.3);
+      background: rgba(212,175,55,0.05);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--gold);
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    #footer {
+      background: var(--black);
+      border-top: 1px solid var(--border-soft);
+      padding: 3.5rem clamp(1.5rem, 5vw, 5rem) 2rem;
+      max-width: none;
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .footer-brand .nav-logo { font-size: 1.2rem; margin-bottom: 1rem; }
+    .footer-brand p {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.8;
+      max-width: 280px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey);
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+    .social-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212,175,55,0.05);
+    }
+    .social-btn svg { width: 16px; height: 16px; }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1.25rem;
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .footer-links a {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--grey);
+      transition: color 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .footer-links a::before { content: '→'; font-size: 0.7rem; opacity: 0; transform: translateX(-4px); transition: all 0.25s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-links a:hover::before { opacity: 1; transform: translateX(0); }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--grey);
+    }
+    .footer-copy span { color: var(--gold); }
+    .footer-motto {
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--grey);
+    }
+
+    /* ═══════════════════════════════════════════════
+       PAGE LOADER
+    ═══════════════════════════════════════════════ */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 9990;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: opacity 0.6s var(--ease-out), visibility 0.6s;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+
+    .loader-logo {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .loader-logo span { color: var(--gold); }
+    .loader-bar {
+      width: 200px; height: 1px;
+      background: var(--border-soft);
+      position: relative;
+      overflow: hidden;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--gold);
+      animation: loaderFill 1.5s var(--ease-out) forwards;
+    }
+    @keyframes loaderFill {
+      to { left: 0; }
+    }
+    .loader-text {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONTACT ACTION BUTTONS
+    ═══════════════════════════════════════════════ */
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+    .contact-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-display);
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-soft);
+      color: var(--grey-light);
+      background: var(--black-soft);
+      transition: all 0.3s var(--ease-out);
+      text-decoration: none;
+    }
+    .contact-action-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .contact-action-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.05); }
+    .btn-call:hover { border-color: #4CAF50; color: #4CAF50; background: rgba(76,175,80,0.05); }
+    .btn-whatsapp:hover { border-color: #25D366; color: #25D366; background: rgba(37,211,102,0.05); }
+    .btn-facebook:hover { border-color: #1877F2; color: #1877F2; background: rgba(24,119,242,0.05); }
+
+    /* ═══════════════════════════════════════════════
+       ARTICLE MODAL
+    ═══════════════════════════════════════════════ */
+    .article-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 2000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s var(--ease-out);
+      overflow-y: auto;
+    }
+    .article-modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .article-modal {
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      max-width: 760px;
+      width: 100%;
+      position: relative;
+      transform: translateY(30px);
+      transition: transform 0.4s var(--ease-out);
+      margin: auto;
+    }
+    .article-modal-overlay.open .article-modal {
+      transform: translateY(0);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      width: 36px; height: 36px;
+      border: 1px solid var(--border-soft);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--grey);
+      background: transparent;
+      cursor: none;
+      transition: all 0.3s;
+      z-index: 1;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    .modal-hero {
+      background: linear-gradient(135deg, #0d0d08 0%, #10100d 100%);
+      padding: 3rem 2.5rem 2.5rem;
+      border-bottom: 1px solid var(--border-soft);
+      position: relative;
+      overflow: hidden;
+    }
+    .modal-hero::before {
+      content: '§';
+      position: absolute;
+      right: 2rem; bottom: -1rem;
+      font-family: var(--font-serif);
+      font-size: 8rem;
+      color: var(--gold);
+      opacity: 0.06;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .modal-tag {
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+    }
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .modal-meta {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--grey);
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .modal-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+    .modal-body {
+      padding: 2.5rem;
+    }
+    .modal-body h2 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--gold);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .modal-body h2:first-child { margin-top: 0; }
+    .modal-body h3 {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--white);
+      margin: 1.75rem 0 0.6rem;
+    }
+    .modal-body p {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--grey-light);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .modal-body strong { color: var(--white); font-weight: 500; }
+    .modal-body em { color: var(--gold); font-style: normal; }
+    .modal-body .modal-note {
+      margin-top: 2.5rem;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      background: rgba(212,175,55,0.03);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--grey);
+      font-style: italic;
+      line-height: 1.7;
+    }
+    .modal-body .modal-sig {
+      margin-top: 2rem;
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+    }
+    .modal-body ul {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+    .modal-body ul li {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--grey-light);
+      line-height: 1.8;
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+    .modal-body ul li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.4rem;
+      top: 0.55rem;
+    }
+    @media (max-width: 540px) {
+      .hero-actions { flex-direction: column; align-items: center; }
+      .hero-actions .btn-primary,
+      .hero-actions .btn-ghost { width: 100%; max-width: 260px; text-align: center; display: block; }
+      .about-stat.s1, .about-stat.s2 { position: static; }
+      .about-visual { height: 280px; }
+    }
+    @media (max-width: 640px) {
+      #card-kemi { flex-direction: column !important; }
+      #card-kemi .article-card-img { flex: 0 0 160px !important; height: 160px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="loader">
+    <div class="loader-logo">LURIS<span>LUX</span></div>
+    <div class="loader-bar"></div>
+    <div class="loader-text">Chargement</div>
+  </div>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════ -->
+  <header id="header">
+    <a href="#" class="nav-logo">LURIS<span>LUX</span></a>
+
+    <nav class="nav-links">
+      <a href="#hero">Accueil</a>
+      <a href="#articles">Articles</a>
+      <a href="#concepts">Concepts</a>
+      <a href="#members">Bureau</a>
+      <a href="#about">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a href="#articles" class="btn-cta"><span>Explorer</span></a>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" class="mobile-link">Accueil</a>
+    <a href="#articles" class="mobile-link">Articles</a>
+    <a href="#concepts" class="mobile-link">Concepts</a>
+    <a href="#members" class="mobile-link">Bureau</a>
+    <a href="#about" class="mobile-link">À propos</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+    <a href="#contact" class="btn-primary mobile-link"><span>Nous écrire</span></a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section id="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-lines"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow reveal">Club juridique · UAC Abomey-Calavi</div>
+
+      <h1 class="hero-title reveal reveal-delay-1">
+        Le droit expliqué<br><em>avec puissance.</em>
+      </h1>
+
+      <p class="hero-sub reveal reveal-delay-2">
+        Comprendre le droit, c'est maîtriser le monde.
+      </p>
+
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#articles" class="btn-primary"><span>Commencer</span></a>
+        <a href="#about" class="btn-ghost">Notre mission</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Défiler</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-band">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="marquee-item">Droit Pénal des Affaires</div>
+      <div class="marquee-item">Finances Publiques</div>
+      <div class="marquee-item">Droit Civil</div>
+      <div class="marquee-item">Droit Public</div>
+      <div class="marquee-item">Légistique</div>
+      <div class="marquee-item">Responsabilité Civile</div>
+      <div class="marquee-item">Droit OHADA</div>
+      <div class="marquee-item">AML · LBC-FT</div>
+      <div class="marquee-item">Procédure Pénale</div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-item">Droit Pénal des Affaires</div>
+      <div class="marquee-item">Finances Publiques</div>
+      <div class="marquee-item">Droit Civil</div>
+      <div class="marquee-item">Droit Public</div>
+      <div class="marquee-item">Légistique</div>
+      <div class="marquee-item">Responsabilité Civile</div>
+      <div class="marquee-item">Droit OHADA</div>
+      <div class="marquee-item">AML · LBC-FT</div>
+      <div class="marquee-item">Procédure Pénale</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       ARTICLES
+  ═══════════════════════════════════════════ -->
+  <section id="articles">
+    <div class="inner">
+      <div class="section-header reveal">
+        <div class="section-label">Publications</div>
+        <span class="gold-line"></span>
+        <h2 class="section-title">Nos derniers <em>articles</em></h2>
+        <p class="section-subtitle">Des analyses rigoureuses, accessibles à tous. Le droit sous un regard neuf.</p>
+      </div>
+
+      <div class="articles-grid">
+        <!-- Card FEATURED: Kèmi Séba — Article récent -->
+        <div class="article-card reveal" style="border-top:2px solid var(--gold); grid-column: 1 / -1; flex-direction: row; gap: 0;" id="card-kemi">
+          <div class="article-card-img" style="height:auto; min-height:180px; flex:0 0 220px;">
+            <div class="article-card-art art-1" style="height:100%;">
+              <div class="art-label" style="font-size:2.5rem;">⚖</div>
+            </div>
+          </div>
+          <div class="article-card-body" style="flex:1;">
+            <div class="article-tag" style="display:flex; align-items:center; gap:0.75rem;">
+              Droit international · Actualité
+              <span style="background:var(--gold);color:var(--black);padding:0.15rem 0.5rem;font-family:var(--font-display);font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;">Nouveau</span>
+            </div>
+            <h3 class="article-title" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">Kèmi Séba arrêté en Afrique du Sud : que dit vraiment le Droit international ?</h3>
+            <p class="article-excerpt">Extradition, immunité diplomatique, double incrimination, exception politique — une analyse rigoureuse de l'affaire qui secoue l'espace panafricain.</p>
+            <div class="article-footer">
+              <span class="article-date">19 avril 2026 · Par Lurislux</span>
+              <button class="btn-read" data-action="open-modal" data-target="articleModal" style="background:none; border:none; cursor:none; font-family:var(--font-display); font-size:0.55rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:0.5rem; padding:0; transition:gap 0.3s;">
+                Lire l'analyse
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Card 1 -->
+        <div class="article-card reveal">
+          <div class="article-card-img">
+            <div class="article-card-art art-1">
+              <div class="art-label">§</div>
+            </div>
+          </div>
+          <div class="article-card-body">
+            <div class="article-tag">Droit pénal · Finances</div>
+            <h3 class="article-title">L'abus de biens sociaux en droit OHADA : une arme contre la fraude d'entreprise</h3>
+            <p class="article-excerpt">Comment le droit OHADA encadre-t-il les détournements au sein des sociétés ? Une analyse approfondie des mécanismes de répression.</p>
+            <div class="article-footer">
+              <span class="article-date">Avril 2025</span>
+              <a href="#" class="btn-read">
+                Lire
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="article-card reveal reveal-delay-1">
+          <div class="article-card-img">
+            <div class="article-card-art art-2">
+              <div class="art-label">⚖</div>
+            </div>
+          </div>
+          <div class="article-card-body">
+            <div class="article-tag">Finances publiques</div>
+            <h3 class="article-title">Budget de l'État béninois : comprendre la loi de finances en cinq minutes</h3>
+            <p class="article-excerpt">La loi de finances, c'est la Constitution de l'argent public. Voici ce que tout citoyen devrait savoir sur son fonctionnement.</p>
+            <div class="article-footer">
+              <span class="article-date">Mars 2025</span>
+              <a href="#" class="btn-read">
+                Lire
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="article-card reveal reveal-delay-2">
+          <div class="article-card-img">
+            <div class="article-card-art art-3">
+              <div class="art-label">✦</div>
+            </div>
+          </div>
+          <div class="article-card-body">
+            <div class="article-tag">Droit public</div>
+            <h3 class="article-title">Le recours pour excès de pouvoir : le citoyen face à l'administration</h3>
+            <p class="article-excerpt">Lorsque l'administration outrepasse ses droits, le citoyen n'est pas sans recours. Tour d'horizon d'un outil juridique fondamental.</p>
+            <div class="article-footer">
+              <span class="article-date">Février 2025</span>
+              <a href="#" class="btn-read">
+                Lire
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="article-card reveal reveal-delay-1">
+          <div class="article-card-img">
+            <div class="article-card-art art-4">
+              <div class="art-label">◈</div>
+            </div>
+          </div>
+          <div class="article-card-body">
+            <div class="article-tag">Blanchiment · AML</div>
+            <h3 class="article-title">Blanchiment de capitaux : les techniques utilisées en Afrique de l'Ouest</h3>
+            <p class="article-excerpt">Immobilier fictif, prête-nom, change informel — les schémas du blanchiment sont plus sophistiqués qu'il n'y paraît.</p>
+            <div class="article-footer">
+              <span class="article-date">Janvier 2025</span>
+              <a href="#" class="btn-read">
+                Lire
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="article-card reveal reveal-delay-2">
+          <div class="article-card-img">
+            <div class="article-card-art art-5">
+              <div class="art-label">⬡</div>
+            </div>
+          </div>
+          <div class="article-card-body">
+            <div class="article-tag">Droit civil</div>
+            <h3 class="article-title">Responsabilité délictuelle : quand un acte simple engage votre responsabilité</h3>
+            <p class="article-excerpt">Une chute dans un lieu public, un accident de la route — la responsabilité civile s'invite partout. Ce que la loi dit vraiment.</p>
+            <div class="article-footer">
+              <span class="article-date">Décembre 2024</span>
+              <a href="#" class="btn-read">
+                Lire
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="article-card reveal reveal-delay-3">
+          <div class="article-card-img">
+            <div class="article-card-art art-6">
+              <div class="art-label">ℓ</div>
+            </div>
+          </div>
+          <div class="article-card-body">
+            <div class="article-tag">Légistique</div>
+            <h3 class="article-title">Comment une loi se fabrique : le parcours d'un texte législatif au Bénin</h3>
+            <p class="article-excerpt">De l'initiative à la promulgation, chaque étape du processus législatif est une bataille silencieuse. Décryptage complet.</p>
+            <div class="article-footer">
+              <span class="article-date">Novembre 2024</span>
+              <a href="#" class="btn-read">
+                Lire
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONCEPTS
+  ═══════════════════════════════════════════ -->
+  <section id="concepts">
+    <div class="section-header center reveal">
+      <div class="section-label">Lexique</div>
+      <span class="gold-line center"></span>
+      <h2 class="section-title">Concepts <em>simplifiés</em></h2>
+      <p class="section-subtitle">Les grandes notions du droit, expliquées simplement pour tous les citoyens.</p>
+    </div>
+
+    <div class="concepts-grid">
+      <div class="concept-card reveal">
+        <div class="concept-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="concept-title">Responsabilité civile</h3>
+        <p class="concept-body">L'obligation pour toute personne de réparer le préjudice qu'elle a causé à autrui par sa faute, sa négligence ou son imprudence. Elle repose sur trois piliers : la faute, le dommage et le lien de causalité.</p>
+      </div>
+
+      <div class="concept-card reveal reveal-delay-1">
+        <div class="concept-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6M9 16h6M17 21H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 class="concept-title">Contrat</h3>
+        <p class="concept-body">Accord de volontés entre deux ou plusieurs parties destiné à créer, modifier, transmettre ou éteindre des obligations. Sa validité repose sur le consentement, la capacité, un objet certain et une cause licite.</p>
+      </div>
+
+      <div class="concept-card reveal reveal-delay-2">
+        <div class="concept-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        </div>
+        <h3 class="concept-title">Faute pénale</h3>
+        <p class="concept-body">Comportement intentionnel ou imprudent qui transgresse la loi pénale et engage la responsabilité criminelle de son auteur. Elle se distingue de la faute civile par la nature de la sanction : punitive, non réparatrice.</p>
+      </div>
+
+      <div class="concept-card reveal reveal-delay-1">
+        <div class="concept-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3 class="concept-title">Finances publiques</h3>
+        <p class="concept-body">Discipline juridique qui étudie l'ensemble des règles encadrant la collecte et la dépense des ressources publiques. Elle comprend le droit budgétaire, la fiscalité et le contrôle des fonds publics.</p>
+      </div>
+
+      <div class="concept-card reveal reveal-delay-2">
+        <div class="concept-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3 class="concept-title">Personnalité juridique</h3>
+        <p class="concept-body">Aptitude à être titulaire de droits et d'obligations. Elle appartient aux personnes physiques dès la naissance et aux personnes morales dès leur constitution légale. Sans elle, nul ne peut ester en justice.</p>
+      </div>
+
+      <div class="concept-card reveal reveal-delay-3">
+        <div class="concept-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3 class="concept-title">Légistique</h3>
+        <p class="concept-body">L'art et la technique de rédiger les textes juridiques. Elle vise la clarté, la cohérence et l'efficacité normative des lois. Une bonne légistique est le fondement d'un État de droit solide.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       QUOTE 1
+  ═══════════════════════════════════════════ -->
+  <section id="quote" class="full-bleed">
+    <div class="quote-wrap reveal">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">
+        La loi est la même pour tous, mais la connaissance de la loi ne l'est pas encore.<br>
+        <em>C'est notre combat.</em>
+      </p>
+      <p class="quote-author">— Lurislux · Club Juridique UAC</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MEMBERS / BUREAU
+  ═══════════════════════════════════════════ -->
+  <section id="members">
+    <div class="inner">
+      <div class="bureau-header">
+        <div class="reveal">
+          <div class="section-label">Qui sommes-nous</div>
+          <span class="gold-line"></span>
+          <h2 class="section-title">Le bureau &amp; les <em>membres</em></h2>
+        </div>
+        <div class="tabs reveal reveal-delay-1">
+          <button class="tab active" data-tab="bureau">Bureau</button>
+          <button class="tab" data-tab="actifs">Membres actifs</button>
+        </div>
+      </div>
+
+      <!-- TAB: BUREAU -->
+      <div class="tab-panel active" id="tab-bureau">
+        <div class="bureau-grid">
+          <!-- HAROLD — Président (featured) -->
+          <div class="member-card president reveal">
+            <div>
+              <div class="member-avatar">HA</div>
+            </div>
+            <div>
+              <div class="member-role">Président Fondateur</div>
+              <div class="member-name">Harold Ted Alogou</div>
+              <div class="member-domain">Juriste privatiste · Université d'Abomey-Calavi</div>
+              <div class="member-bio">
+                Passionné avant tout par les <strong>finances publiques</strong> et le <strong>droit pénal des affaires</strong>, Harold explore les zones grises de l'argent public et de la responsabilité pénale des acteurs économiques. Il nourrit également un intérêt croissant, encore en construction, pour la <em>légistique</em> — cet art exigeant de donner à la loi son plein pouvoir normatif. Il est le porteur de l'idée et l'initiateur du projet Lurislux
+              </div>
+              <div class="member-tags">
+                <span class="member-tag">Finances publiques</span>
+                <span class="member-tag">Droit pénal des affaires</span>
+                <span class="member-tag">Légistique</span>
+                <span class="member-tag">Droit privé</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SHAW — VP -->
+          <div class="member-card reveal reveal-delay-1">
+            <div class="member-avatar">SB</div>
+            <div style="margin-top:0.25rem">
+              <div class="member-role">Vice-Président</div>
+              <div class="member-name">Salem Shaw Benni</div>
+              <div class="member-domain">Juriste publiciste</div>
+              <div class="member-bio">
+                Seul publiciste au cœur d'un bureau majoritairement privatiste, Salem Shaw Benni incarne une perspective rare et précieuse. Sa maîtrise du droit public — constitutionnel, administratif, des libertés fondamentales — donne à Lurislux une voix capable d'interroger l'État là où il est le plus puissant. Il analyse les rapports entre les citoyens et les institutions avec une acuité qui ne cède jamais à la facilité. Le droit public, pour Salem, ce n'est pas une matière abstraite : c'est le terrain où se joue, concrètement, l'équilibre entre le pouvoir et la liberté.
+              </div>
+              <div class="member-tags">
+                <span class="member-tag">Droit public</span>
+                <span class="member-tag">Droit constitutionnel</span>
+                <span class="member-tag">Libertés fondamentales</span>
+                <span class="member-tag">Droit administratif</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MARTINE -->
+          <div class="member-card reveal reveal-delay-2">
+            <div class="member-avatar">MA</div>
+            <div style="margin-top:0.25rem">
+              <div class="member-role">Responsable Éditorial</div>
+              <div class="member-name">Martine Agonsanou</div>
+              <div class="member-domain">Droit privé</div>
+              <div class="member-bio">
+                Martine n'écrit pas pour remplir une page — elle écrit pour être lue. En tant que Responsable Éditoriale, elle incarne l'exigence de Lurislux : produire des contenus juridiques d'une rigueur irréprochable, sans jamais perdre de vue le lecteur non-juriste. Sa sensibilité au droit privé, doublée d'un sens aigu de la pédagogie, fait d'elle l'architecte silencieuse derrière la clarté de chaque article publié par le club.
+              </div>
+              <div class="member-tags">
+                <span class="member-tag">Droit privé</span>
+                <span class="member-tag">Rédaction juridique</span>
+                <span class="member-tag">Pédagogie</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- JUNIOR -->
+          <div class="member-card reveal reveal-delay-3">
+            <div class="member-avatar">JA</div>
+            <div style="margin-top:0.25rem">
+              <div class="member-role">Responsable Éditorial</div>
+              <div class="member-name">Junior Aikpon</div>
+              <div class="member-domain">Droit privé</div>
+              <div class="member-bio">
+                Junior a ce sens rare de la cohérence : là où d'autres voient une liste de sujets, il voit une ligne éditoriale, un fil rouge, une progression. Co-responsable de la publication, il veille à ce que les thèmes choisis forment un ensemble intelligible et utile, pas une succession d'articles dispersés. Sa rigueur analytique dans le traitement du droit privé en fait un rouage essentiel de la machine Lurislux — discret mais déterminant.
+              </div>
+              <div class="member-tags">
+                <span class="member-tag">Droit privé</span>
+                <span class="member-tag">Coordination éditoriale</span>
+                <span class="member-tag">Analyse juridique</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MARIE-VICTOIRE -->
+          <div class="member-card reveal reveal-delay-2">
+            <div class="member-avatar">MV</div>
+            <div style="margin-top:0.25rem">
+              <div class="member-role">Chargée des Thèmes Juridiques</div>
+              <div class="member-name">Marie-Victoire Zoglobossou</div>
+              <div class="member-domain">Droit privé · Droit des successions</div>
+              <div class="member-bio">
+                Marie-Victoire ne parle pas pour ne rien dire. Quand elle prend la parole, c'est que quelque chose vaut d'être dit — et en général, elle a raison. Sa passion pour le <strong>droit des successions</strong> est révélatrice de son tempérament : une discipline qui exige précision, sens de la nuance et respect du détail, où la moindre ambiguïté peut tout défaire. Chargée de la sélection des thèmes, elle garantit que Lurislux traite ce qui compte vraiment, sans s'éparpiller. Une intelligence posée, qui préfère la profondeur à l'effet.
+              </div>
+              <div class="member-tags">
+                <span class="member-tag">Droit privé</span>
+                <span class="member-tag">Successions</span>
+                <span class="member-tag">Veille thématique</span>
+                <span class="member-tag">Droit de la famille</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MERVEILLE -->
+          <div class="member-card reveal reveal-delay-3">
+            <div class="member-avatar">MB</div>
+            <div style="margin-top:0.25rem">
+              <div class="member-role">Secrétaire Général</div>
+              <div class="member-name">Merveille Bossou</div>
+              <div class="member-domain">Droit privé</div>
+              <div class="member-bio">
+                Un club sans mémoire est un club sans identité. Merveille est la mémoire de Lurislux. Secrétaire Général, il assure la continuité institutionnelle du club : procès-verbaux, correspondances, archivage des délibérations — rien ne lui échappe. Son profil de juriste privatiste lui permet aussi de contribuer directement aux contenus, avec ce sens de l'ordre et de la structure qui est sa marque de fabrique. La discrétion avec laquelle il travaille n'est pas de l'effacement : c'est de la méthode.
+              </div>
+              <div class="member-tags">
+                <span class="member-tag">Droit privé</span>
+                <span class="member-tag">Administration</span>
+                <span class="member-tag">Mémoire institutionnelle</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: MEMBRES ACTIFS -->
+      <div class="tab-panel" id="tab-actifs">
+        <div class="bureau-grid" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px),1fr));">
+          <div class="member-card reveal" style="border-bottom:2px solid var(--gold)">
+            <div class="member-role">Membres actifs</div>
+            <div class="member-name" style="font-size:1.1rem;">Pôle Droit Public</div>
+            <div class="member-bio">Animé par Salem Shaw Benni, le pôle droit public regroupe les membres spécialisés en droit constitutionnel, administratif, et relations entre l'État et les citoyens.</div>
+            <div class="member-tags" style="margin-top:1rem">
+              <span class="member-tag">Droit constitutionnel</span>
+              <span class="member-tag">Droit administratif</span>
+              <span class="member-tag">Service public</span>
+            </div>
+          </div>
+          <div class="member-card reveal reveal-delay-1" style="border-bottom:2px solid rgba(212,175,55,0.3)">
+            <div class="member-role">Membres actifs</div>
+            <div class="member-name" style="font-size:1.1rem;">Pôle Droit Privé</div>
+            <div class="member-bio">Le pôle majoritaire du club, animé par Martine, Junior et Marie-Victoire. Il couvre le droit civil, le droit des affaires, le droit OHADA et les procédures civiles.</div>
+            <div class="member-tags" style="margin-top:1rem">
+              <span class="member-tag">Droit civil</span>
+              <span class="member-tag">OHADA</span>
+              <span class="member-tag">Droit des contrats</span>
+            </div>
+          </div>
+          <div class="member-card reveal reveal-delay-2" style="border-bottom:2px solid rgba(212,175,55,0.3)">
+            <div class="member-role">Membres actifs</div>
+            <div class="member-name" style="font-size:1.1rem;">Pôle Pénal &amp; Finances</div>
+            <div class="member-bio">Sous l'impulsion d'Harold, ce pôle traite du droit pénal des affaires, de la criminalité financière, des finances publiques et de la lutte contre le blanchiment de capitaux.</div>
+            <div class="member-tags" style="margin-top:1rem">
+              <span class="member-tag">Pénal des affaires</span>
+              <span class="member-tag">AML · LBC-FT</span>
+              <span class="member-tag">Budgets publics</span>
+            </div>
+          </div>
+          <div class="member-card reveal reveal-delay-1" style="border-bottom:2px solid rgba(212,175,55,0.3)">
+            <div class="member-role">Rejoindre le club</div>
+            <div class="member-name" style="font-size:1.1rem;">Vous êtes juriste ?</div>
+            <div class="member-bio">Lurislux recrute des membres passionnés, rigoureux et engagés dans la vulgarisation du droit. Étudiant en droit à l'UAC ? Contactez-nous.</div>
+            <div style="margin-top:1.25rem">
+              <a href="#contact" class="btn-read" style="font-size:0.6rem; display:inline-flex; align-items:center; gap:0.5rem;">
+                Candidater
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ABOUT
+  ═══════════════════════════════════════════ -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-frame">
+          <div class="about-corner tl"></div>
+          <div class="about-corner tr"></div>
+          <div class="about-corner bl"></div>
+          <div class="about-corner br"></div>
+          <div class="about-frame-inner">
+            <div class="about-big-text">LURIS</div>
+            <div class="about-big-text">LUX</div>
+          </div>
+        </div>
+        <div class="about-stat s1">
+          <div class="stat-number">2024</div>
+          <div class="stat-label">Année de création</div>
+        </div>
+        <div class="about-stat s2">
+          <div class="stat-number">UAC</div>
+          <div class="stat-label">Abomey-Calavi · Bénin</div>
+        </div>
+      </div>
+
+      <div class="about-text-col reveal reveal-delay-2">
+        <div class="section-label">Notre identité</div>
+        <span class="gold-line"></span>
+        <h2 class="section-title">Lurislux transforme le droit en <em>arme intellectuelle.</em></h2>
+        <p class="about-body">
+          Né à l'Université d'Abomey-Calavi, Lurislux est plus qu'un club juridique. C'est une conviction : <em>le droit ne doit pas rester le privilège de quelques-uns.</em> Chaque article, chaque concept simplifié est un acte politique — celui de donner aux citoyens béninois les outils pour se défendre, comprendre, et agir.
+        </p>
+        <p class="about-body">
+          Nous croyons que la connaissance juridique est une <strong>forme de liberté</strong>. Que comprendre la loi, c'est refuser d'en être victime. Et que le droit bien expliqué est le fondement de toute société juste.
+        </p>
+
+        <div class="about-values">
+          <div class="about-value">
+            <div class="about-value-num">01</div>
+            <div class="about-value-text"><strong>Accessibilité</strong> — Le droit pour tous, sans exception.</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-num">02</div>
+            <div class="about-value-text"><strong>Rigueur</strong> — Chaque mot est pesé, chaque source vérifiée.</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-num">03</div>
+            <div class="about-value-text"><strong>Impact</strong> — Changer la conscience juridique du Bénin.</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-num">04</div>
+            <div class="about-value-text"><strong>Audace</strong> — Traiter les sujets que d'autres évitent.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       QUOTE 2 (GOLD STRIP)
+  ═══════════════════════════════════════════ -->
+  <section id="quote2" class="full-bleed">
+    <div class="reveal">
+      <p class="quote2-text">"Nul ne devrait ignorer la loi faute de ne pas l'avoir comprise."</p>
+      <p class="quote2-sub">Lurislux · Mission éditoriale</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT
+  ═══════════════════════════════════════════ -->
+  <section id="contact">
+    <div class="inner">
+      <div class="contact-info reveal">
+        <div class="section-label">Nous écrire</div>
+        <span class="gold-line"></span>
+        <h2 class="section-title">Entrons en <em>contact</em></h2>
+        <p class="contact-info-body">
+          Une question juridique ? Une proposition d'article ? Une envie de rejoindre l'aventure Lurislux ? Nous vous répondons avec soin.
+        </p>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Localisation</strong>
+            Université d'Abomey-Calavi, Bénin
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            lurislux01@gmail.com
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="contact-actions">
+          <a href="tel:+2290191404210" class="contact-action-btn btn-call">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <span>Appel</span>
+          </a>
+          <a href="https://wa.me/2290191404210" target="_blank" rel="noopener noreferrer" class="contact-action-btn btn-whatsapp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>WhatsApp</span>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61573477834742" target="_blank" rel="noopener noreferrer" class="contact-action-btn btn-facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            <span>Page Facebook</span>
+          </a>
+        </div>
+      </div><!-- /contact-info -->
+
+      <div class="reveal reveal-delay-2">
+        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <!-- Honeypot anti-spam Netlify — champ invisible pour les humains, visible pour les bots -->
+          <p style="display:none;"><label>Ne pas remplir : <input name="bot-field" /></label></p>
+          <div class="form-row">
+            <div class="form-group" id="grp-name">
+              <label class="form-label" for="name">Nom complet</label>
+              <input class="form-input" type="text" id="name" name="name"
+                     placeholder="Jean Dupont" autocomplete="name"
+                     maxlength="100" required />
+              <span class="form-error">Ce champ est requis.</span>
+            </div>
+            <div class="form-group" id="grp-email">
+              <label class="form-label" for="email">Adresse email</label>
+              <input class="form-input" type="email" id="email" name="email"
+                     placeholder="jean@exemple.com" autocomplete="email"
+                     maxlength="254" inputmode="email" required />
+              <span class="form-error">Email invalide.</span>
+            </div>
+          </div>
+          <div class="form-group" id="grp-subject">
+            <label class="form-label" for="subject">Objet</label>
+            <input class="form-input" type="text" id="subject" name="subject"
+                   placeholder="Question juridique, collaboration…"
+                   maxlength="150" required />
+            <span class="form-error">Ce champ est requis.</span>
+          </div>
+          <div class="form-group" id="grp-message">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-textarea" id="message" name="message"
+                      placeholder="Votre message…" maxlength="2000" required></textarea>
+            <span class="form-error">Ce champ est requis.</span>
+          </div>
+          <button type="submit" class="form-submit"><span>Envoyer le message</span></button>
+          <div class="form-success" id="formSuccess">
+            ✦ &nbsp; Votre message a été envoyé. Nous vous répondrons dans les meilleurs délais.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo">LURIS<span>LUX</span></div>
+          <p>Rendre le droit accessible à chaque citoyen béninois. Une publication, une connaissance, une liberté à la fois.</p>
+          <div class="footer-socials">
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/profile.php?id=61573477834742" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="#" class="social-btn" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
+            </a>
+            <!-- Instagram -->
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <!-- Twitter/X -->
+            <a href="#" class="social-btn" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="#articles">Articles</a></li>
+            <li><a href="#concepts">Concepts</a></li>
+            <li><a href="#members">Bureau</a></li>
+            <li><a href="#about">À propos</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Domaines</h4>
+          <ul class="footer-links">
+            <li><a href="#">Droit public</a></li>
+            <li><a href="#">Droit privé</a></li>
+            <li><a href="#">Pénal des affaires</a></li>
+            <li><a href="#">Finances publiques</a></li>
+            <li><a href="#">Légistique</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Liens utiles</h4>
+          <ul class="footer-links">
+            <li><a href="#">BLS 2026</a></li>
+            <li><a href="#">UAC — Droit</a></li>
+            <li><a href="#">OHADA.com</a></li>
+            <li><a href="#contact">Nous rejoindre</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 <span>Lurislux</span> · Club Juridique · Université d'Abomey-Calavi</p>
+        <p class="footer-motto">« Le droit est la raison sans passion. »</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       ARTICLE MODAL — Kèmi Séba
+  ═══════════════════════════════════════════ -->
+  <div class="article-modal-overlay" id="articleModal" role="dialog" aria-modal="true" aria-label="Article : Kèmi Séba arrêté en Afrique du Sud">
+    <div class="article-modal">
+      <button class="modal-close" data-action="close-modal" data-target="articleModal" aria-label="Fermer">✕</button>
+
+      <div class="modal-hero">
+        <div class="modal-tag">Droit international · Actualité · 19 avril 2026</div>
+        <h2 class="modal-title">Kèmi Séba arrêté en Afrique du Sud : que dit vraiment le Droit international ?</h2>
+        <div class="modal-meta">
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Par Lurislux
+          </span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            19 avril 2026
+          </span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Lecture : ~8 min
+          </span>
+        </div>
+      </div>
+
+      <div class="modal-body">
+
+        <h2>Que s'est-il passé ?</h2>
+        <p>Kèmi Séba a été arrêté le 15 avril 2026 en Afrique du Sud et présenté devant les autorités judiciaires locales. Selon plusieurs sources concordantes, l'activiste aurait tenté de rejoindre le Mozambique au moment de son interpellation, avec le soutien présumé d'un réseau lié à la Russie dans ses déplacements. Il a ensuite été conduit à Pretoria, où il a été présenté devant une juridiction compétente.</p>
+        <p>Cette arrestation n'est pas le fruit du hasard. Kèmi Séba fait l'objet d'un mandat d'arrêt international émis par la <strong>Cour de répression des infractions économiques et du terrorisme (CRIET)</strong> au Bénin, dans le cadre de poursuites pour <em>apologie de crimes contre la sûreté de l'État</em>. Ce mandat a été émis le 12 décembre 2025, et les charges incluent incitation à la rébellion et incitation à la violence, après les événements du 7 décembre 2025.</p>
+        <p>Une audience cruciale a été fixée au 20 avril pour statuer sur son éventuelle extradition — possiblement vers le Bénin — mais Kèmi Séba aurait exprimé sa préférence pour être transféré vers le Niger. C'est précisément cette dernière information qui mérite un éclairage juridique rigoureux.</p>
+
+        <h2>Peut-il vraiment choisir son pays d'extradition ?</h2>
+        <p>Il faut corriger une idée reçue que cette affaire risque d'alimenter : <strong>un individu arrêté en vue d'extradition ne choisit pas le pays vers lequel il sera remis.</strong></p>
+        <p>L'extradition est une procédure de coopération judiciaire interétatique. C'est <em>l'État requis</em> — ici l'Afrique du Sud — qui détient le pouvoir de décision. Il examine la demande qui lui est adressée par l'État requérant (le Bénin) et statue en application de son droit interne et de ses engagements conventionnels.</p>
+        <p>En Afrique du Sud, cette matière est régie par l'<strong>Extradition Act 67 de 1962</strong>, modifié. La procédure est judiciaire et soumise au contrôle des tribunaux. L'État requis traite la requête d'extradition conformément aux procédures prévues par ses lois nationales, et communique promptement sa décision à l'État requérant.</p>
+        <p>La préférence exprimée par Kèmi Séba d'être extradé vers le Niger plutôt que vers le Bénin n'a donc <strong>aucune valeur juridique contraignante</strong>. Elle peut, au mieux, être portée à la connaissance du juge comme élément contextuel, notamment si elle est étayée par des arguments de protection des droits fondamentaux.</p>
+
+        <h2>Son passeport diplomatique nigérien le protège-t-il ?</h2>
+        <p>Les autorités nigériennes ont délivré un passeport diplomatique à Kèmi Séba — dont le nom légal est <em>Capo Chichi Stellio Gilles R</em> — peu après qu'il a été déchu de sa nationalité française. Depuis août 2024, il sert comme conseiller auprès d'Abdourahamane Tiani, le chef de la junte militaire nigérienne.</p>
+        <p>Kèmi Séba ou ses soutiens pourraient invoquer ce statut pour réclamer une immunité diplomatique. Le droit international est ici sans ambiguïté.</p>
+        <p>La <strong>Convention de Vienne sur les relations diplomatiques de 1961</strong>, texte fondateur en la matière, accorde l'immunité diplomatique aux agents accrédités dans l'État de réception. Cette immunité ne vaut que dans l'État auprès duquel l'agent est accrédité, et seulement pour les actes accomplis dans l'exercice de ses fonctions officielles.</p>
+        <p>Or Kèmi Séba n'est pas un diplomate nigérien accrédité en Afrique du Sud. Son passeport diplomatique lui permet des facilités de voyage et un traitement protocolaire, mais <strong>il ne lui confère aucune immunité d'arrestation en territoire sud-africain</strong>. La Cour internationale de Justice (affaire Yerodia, 2002) a confirmé que même les ministres des affaires étrangères en exercice peuvent être arrêtés lorsqu'ils ne sont pas en mission officielle dans l'État concerné.</p>
+        <p>Le passeport diplomatique nigérien ne fait donc pas obstacle à l'extradition.</p>
+
+        <h2>Quels sont les vrais obstacles à l'extradition vers le Bénin ?</h2>
+        <p>C'est la question technique au cœur du dossier. L'Afrique du Sud est membre de la <em>SADC (Communauté de développement de l'Afrique australe)</em>, qui dispose d'un protocole d'extradition en vigueur entre ses membres. Le Bénin, lui, est membre de la CEDEAO, qui dispose de sa propre Convention d'extradition de 1994 liant les États membres entre eux.</p>
+        <p>Mais le Bénin et l'Afrique du Sud appartiennent à deux organisations régionales distinctes. Il n'existe pas à ce jour de traité bilatéral d'extradition connu entre les deux États.</p>
+        <p>Cela ne bloque pas mécaniquement la procédure. Le droit international admet la <em>coopération judiciaire en l'absence de traité</em>, sur la base du principe de réciprocité ou de la courtoisie internationale. L'Afrique du Sud peut accorder l'extradition si les conditions de son droit interne sont satisfaites et si la demande béninoise est régulière en la forme. Elle peut aussi refuser.</p>
+
+        <h3>La double incrimination</h3>
+        <p>Les faits reprochés à Kèmi Séba — apologie de crimes contre la sûreté de l'État, incitation à la rébellion — doivent constituer une infraction pénale également en Afrique du Sud. Ce critère est en principe satisfait : les législations modernes incriminent généralement l'incitation à la violence et la sédition.</p>
+
+        <h3>L'exception d'infraction politique</h3>
+        <p>C'est <strong>l'argument le plus sérieux dont dispose la défense</strong>. Le droit international de l'extradition reconnaît que les infractions à caractère purement politique ne peuvent fonder une extradition. Ce principe figure dans la Convention d'extradition de la CEDEAO, qui interdit notamment l'extradition lorsque l'individu dont l'extradition est demandée a été ou serait soumis dans l'État requérant à des tortures et autres peines ou traitements cruels, inhumains ou dégradants.</p>
+        <p>La défense tentera certainement de qualifier les poursuites béninoises d'infractions politiques déguisées. Les juridictions sud-africaines examineront si les faits reprochés — au-delà de leur qualification formelle — visent à réprimer une opinion dissidente ou constituent véritablement une menace à la sécurité de l'État.</p>
+        <p>L'Afrique du Sud dispose d'une Constitution parmi les plus protectrices du continent. Ses tribunaux peuvent refuser une extradition si elle expose l'individu à un risque de peine capitale, de traitement dégradant, ou de procès inéquitable.</p>
+
+        <h2>La demande de transfert vers le Niger : qu'en dit le Droit ?</h2>
+        <p>Kèmi Séba souhaite être remis au Niger, où il bénéficie d'un statut politique protégé. Cette demande repose implicitement sur deux logiques : l'asile politique et la nationalité de fait.</p>
+        <ul>
+          <li><strong>Sur l'asile :</strong> le Niger a accordé à Kèmi Séba un statut d'exil politique. Mais cet asile ne crée d'obligations qu'à l'égard du Niger lui-même. Il ne lie pas l'Afrique du Sud et ne fait pas obstacle à ce qu'elle réponde favorablement à une demande d'extradition d'un État tiers.</li>
+          <li><strong>Sur la nationalité :</strong> Kèmi Séba est béninois. Il a été déchu de sa nationalité française. Il dispose d'un passeport diplomatique nigérien, mais sans naturalisation formelle nigérienne dûment documentée, il n'est pas « ressortissant nigérien » au sens du droit de l'extradition.</li>
+          <li><strong>Sur la procédure :</strong> il n'existe par ailleurs aucune demande d'extradition formelle du Niger vers l'Afrique du Sud à ce stade — seul le Bénin a émis un mandat international. Le Niger n'est pas dans la position d'un État requérant dans cette procédure.</li>
+        </ul>
+        <p>En l'état du droit : <strong>la demande de Kèmi Séba d'être remis au Niger ne repose sur aucun fondement juridique opposable à l'Afrique du Sud.</strong></p>
+
+        <div class="modal-sig">✦ — Lurislux · Rendre le droit accessible à tous les Béninois</div>
+
+        <div class="modal-note">
+          <strong>Note éditoriale :</strong> Cette analyse est produite à des fins d'information juridique. Elle ne constitue pas un avis juridictionnel ni une consultation professionnelle. Les faits étant en évolution rapide, l'analyse sera actualisée selon les développements de la procédure.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       JAVASCRIPT — Production-hardened
+       • Aucune fonction globale (onclick supprimés)
+       • Event delegation pour les modals
+       • Sanitisation des entrées formulaire
+       • Fetch vers /api/contact (Netlify Forms en fallback)
+       • Rate-limit côté client (anti double-submit)
+       • Page Visibility API (pause particules onglet caché)
+       • Gestionnaire d'erreurs global
+  ═══════════════════════════════════════════ -->
+  <script>
+  /* ================================================================
+     LURISLUX — app.js
+     Auteur : Lurislux / Claude Anthropic — Avril 2026
+     Sécurité : pas de fonctions globales, pas d'inline handlers,
+                sanitisation, rate-limit client, gestion erreurs
+  ================================================================ */
+  (function () {
+    'use strict';
+
+    /* ────────────────────────────────────────────
+       GESTIONNAIRE D'ERREURS GLOBAL
+    ──────────────────────────────────────────── */
+    window.addEventListener('error', function (e) {
+      console.error('[Lurislux] Erreur JS non interceptée :', e.message, e.filename, e.lineno);
+    });
+    window.addEventListener('unhandledrejection', function (e) {
+      console.error('[Lurislux] Promise rejetée :', e.reason);
+    });
+
+    /* ────────────────────────────────────────────
+       SANITISATION (défense XSS côté client)
+       Retourne le texte brut, jamais de HTML
+    ──────────────────────────────────────────── */
+    function sanitize(str) {
+      if (typeof str !== 'string') return '';
+      return str.trim().slice(0, 2000); // limite absolue
+    }
+    function escapeHtml(str) {
+      const map = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":"&#x27;" };
+      return String(str).replace(/[&<>"']/g, function(c){ return map[c]; });
+    }
+
+    /* ────────────────────────────────────────────
+       LOADER
+    ──────────────────────────────────────────── */
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var loader = document.getElementById('loader');
+        if (loader) loader.classList.add('hidden');
+      }, 1700);
+    });
+
+    /* ────────────────────────────────────────────
+       CUSTOM CURSOR (desktop uniquement)
+    ──────────────────────────────────────────── */
+    var dot  = document.getElementById('cursorDot');
+    var ring = document.getElementById('cursorRing');
+    if (dot && ring && window.matchMedia('(pointer:fine)').matches) {
+      var mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+      document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX; mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top  = mouseY + 'px';
+      });
+      (function animateRing() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        requestAnimationFrame(animateRing);
+      })();
+      document.addEventListener('mouseover', function (e) {
+        var t = e.target.closest('a, button, .concept-card, .article-card, .member-card');
+        if (t) ring.classList.add('hovered'); else ring.classList.remove('hovered');
+      });
+    } else {
+      // Masquer curseur custom sur tactile
+      if (dot)  dot.style.display  = 'none';
+      if (ring) ring.style.display = 'none';
+    }
+
+    /* ────────────────────────────────────────────
+       STICKY HEADER
+    ──────────────────────────────────────────── */
+    var header = document.getElementById('header');
+    if (header) {
+      window.addEventListener('scroll', function () {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+      }, { passive: true });
+    }
+
+    /* ────────────────────────────────────────────
+       HAMBURGER / MENU MOBILE
+    ──────────────────────────────────────────── */
+    var hamburger  = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function () {
+        var open = hamburger.classList.toggle('open');
+        mobileMenu.classList.toggle('open', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+        hamburger.setAttribute('aria-expanded', String(open));
+      });
+      mobileMenu.querySelectorAll('.mobile-link').forEach(function (link) {
+        link.addEventListener('click', function () {
+          hamburger.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          document.body.style.overflow = '';
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    /* ────────────────────────────────────────────
+       SCROLL REVEAL
+    ──────────────────────────────────────────── */
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      revealObserver.observe(el);
+    });
+
+    // Hero stagger après le loader
+    setTimeout(function () {
+      document.querySelectorAll('.hero-content .reveal').forEach(function (el, i) {
+        setTimeout(function () { el.classList.add('visible'); }, i * 180);
+      });
+    }, 1800);
+
+    /* ────────────────────────────────────────────
+       TABS (Bureau / Membres actifs)
+       Sécurisé : whitelist des IDs autorisés
+    ──────────────────────────────────────────── */
+    var ALLOWED_TABS = { 'bureau': true, 'actifs': true }; // whitelist explicite
+    document.querySelectorAll('.tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.dataset.tab;
+        if (!ALLOWED_TABS[target]) return; // bloque tout tab ID non autorisé
+        document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        var panel = document.getElementById('tab-' + target);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    /* ────────────────────────────────────────────
+       MODAL — event delegation (zéro onclick inline)
+       Déclenché par data-action="open-modal" data-target="<id>"
+                  et data-action="close-modal" data-target="<id>"
+    ──────────────────────────────────────────── */
+    var ALLOWED_MODALS = { 'articleModal': true }; // whitelist des IDs modals
+
+    function openModal(id) {
+      if (!ALLOWED_MODALS[id]) return;
+      var m = document.getElementById(id);
+      if (!m) return;
+      m.classList.add('open');
+      m.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+      m.setAttribute('aria-hidden', 'false');
+      // Focus trap : premier bouton focusable
+      var firstFocusable = m.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (firstFocusable) firstFocusable.focus();
+    }
+
+    function closeModal(id) {
+      if (!ALLOWED_MODALS[id]) return;
+      var m = document.getElementById(id);
+      if (!m) return;
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+      m.setAttribute('aria-hidden', 'true');
+    }
+
+    // Délégation globale pour open/close
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var action = btn.dataset.action;
+      var target = btn.dataset.target;
+      if (action === 'open-modal')  openModal(target);
+      if (action === 'close-modal') closeModal(target);
+    });
+
+    // Fermeture sur overlay click
+    document.querySelectorAll('.article-modal-overlay').forEach(function (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
+    });
+
+    // Fermeture sur Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      document.querySelectorAll('.article-modal-overlay.open').forEach(function (m) {
+        closeModal(m.id);
+      });
+    });
+
+    /* ────────────────────────────────────────────
+       FORMULAIRE DE CONTACT — sécurisé
+       • Sanitisation avant envoi
+       • Validation stricte (regex, maxlength)
+       • Rate-limit client (anti double-submit)
+       • Fetch vers /api/contact (backend Node.js)
+       • Affichage erreurs par textContent (anti XSS)
+    ──────────────────────────────────────────── */
+    var form        = document.getElementById('contactForm');
+    var formSuccess = document.getElementById('formSuccess');
+    var lastSubmit  = 0;
+    var RATE_LIMIT_MS = 10000; // 10 secondes entre deux soumissions
+
+    var EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+
+    function setFieldError(groupId, msg) {
+      var grp = document.getElementById(groupId);
+      if (!grp) return;
+      grp.classList.add('error');
+      var errEl = grp.querySelector('.form-error');
+      if (errEl) errEl.textContent = msg; // textContent, jamais innerHTML
+    }
+    function clearFieldError(groupId) {
+      var grp = document.getElementById(groupId);
+      if (grp) grp.classList.remove('error');
+    }
+
+    function validateForm(data) {
+      var ok = true;
+      if (!data.name || data.name.length < 2) {
+        setFieldError('grp-name', 'Veuillez entrer votre nom (2 caractères minimum).'); ok = false;
+      } else clearFieldError('grp-name');
+
+      if (!data.email || !EMAIL_RE.test(data.email)) {
+        setFieldError('grp-email', 'Adresse email invalide.'); ok = false;
+      } else clearFieldError('grp-email');
+
+      if (!data.subject || data.subject.length < 3) {
+        setFieldError('grp-subject', 'Objet trop court (3 caractères minimum).'); ok = false;
+      } else clearFieldError('grp-subject');
+
+      if (!data.message || data.message.length < 10) {
+        setFieldError('grp-message', 'Message trop court (10 caractères minimum).'); ok = false;
+      } else clearFieldError('grp-message');
+
+      return ok;
+    }
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Rate-limit côté client
+        var now = Date.now();
+        if (now - lastSubmit < RATE_LIMIT_MS) {
+          alert('Merci de patienter quelques secondes avant de renvoyer un message.');
+          return;
+        }
+
+        // Lecture et sanitisation
+        var data = {
+          name:    sanitize(document.getElementById('name').value),
+          email:   sanitize(document.getElementById('email').value).toLowerCase(),
+          subject: sanitize(document.getElementById('subject').value),
+          message: sanitize(document.getElementById('message').value),
+        };
+
+        if (!validateForm(data)) return;
+
+        lastSubmit = now;
+        var btn = form.querySelector('.form-submit');
+        btn.disabled = true;
+        if (btn.querySelector('span')) btn.querySelector('span').textContent = 'Envoi…';
+
+        // ── Envoi Netlify Forms (zéro backend requis) ──
+        var formData = new FormData();
+        formData.append('form-name', 'contact');
+        formData.append('name',    data.name);
+        formData.append('email',   data.email);
+        formData.append('subject', data.subject);
+        formData.append('message', data.message);
+
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString(),
+        })
+          .then(function (res) {
+            if (!res.ok) return res.json().then(function(d){ throw new Error(d.error || 'Erreur serveur'); });
+            return res.json();
+          })
+          .then(function () {
+            form.style.display = 'none';
+            if (formSuccess) {
+              formSuccess.style.display = 'block';
+              // Utiliser textContent pour éviter XSS
+              formSuccess.textContent = '✦  Votre message a été envoyé. Nous vous répondrons dans les meilleurs délais.';
+            }
+          })
+          .catch(function (err) {
+            btn.disabled = false;
+            if (btn.querySelector('span')) btn.querySelector('span').textContent = 'Envoyer le message';
+            // Afficher l'erreur en textContent
+            var errBox = form.querySelector('.form-send-error');
+            if (!errBox) {
+              errBox = document.createElement('p');
+              errBox.className = 'form-send-error';
+              errBox.style.cssText = 'color:#e55;font-size:.8rem;margin-top:.5rem;';
+              form.appendChild(errBox);
+            }
+            errBox.textContent = 'Erreur : ' + err.message + '. Veuillez réessayer ou nous écrire directement.';
+          });
+      });
+    }
+
+    /* ────────────────────────────────────────────
+       PARTICULES — canvas
+       + Page Visibility API (pause si onglet caché)
+       + Détection prefers-reduced-motion
+    ──────────────────────────────────────────── */
+    var canvas = document.getElementById('particle-canvas');
+    if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var ctx = canvas.getContext('2d');
+      var W, H, particles = [];
+      var animPaused = false;
+      var animFrameId = null;
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      // Pause si onglet caché (économie CPU/batterie)
+      document.addEventListener('visibilitychange', function () {
+        animPaused = document.hidden;
+        if (!animPaused && !animFrameId) animateParticles();
+      });
+
+      var GOLD_R = 212, GOLD_G = 175, GOLD_B = 55;
+
+      function Particle() { this.reset(true); }
+      Particle.prototype.reset = function (init) {
+        this.x     = Math.random() * W;
+        this.y     = init ? Math.random() * H : H + 10;
+        this.r     = Math.random() * 1.2 + 0.3;
+        this.vx    = (Math.random() - 0.5) * 0.3;
+        this.vy    = -(Math.random() * 0.5 + 0.2);
+        this.alpha = Math.random() * 0.5 + 0.1;
+        this.life  = Math.random() * 300 + 100;
+        this.age   = 0;
+      };
+      Particle.prototype.update = function () {
+        this.x += this.vx; this.y += this.vy; this.age++;
+        if (this.age > this.life || this.y < -10) this.reset(false);
+      };
+      Particle.prototype.draw = function () {
+        var fade = Math.min(1, Math.min(this.age / 30, (this.life - this.age) / 30));
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + GOLD_R + ',' + GOLD_G + ',' + GOLD_B + ',' + (this.alpha * fade) + ')';
+        ctx.fill();
+      };
+
+      for (var i = 0; i < 90; i++) particles.push(new Particle());
+
+      function animateParticles() {
+        if (animPaused) { animFrameId = null; return; }
+        ctx.clearRect(0, 0, W, H);
+        for (var p = 0; p < particles.length; p++) {
+          particles[p].update();
+          particles[p].draw();
+        }
+        animFrameId = requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+    } else if (canvas) {
+      // prefers-reduced-motion : supprimer le canvas proprement
+      canvas.parentNode && canvas.parentNode.removeChild(canvas);
+    }
+
+  })(); // fin IIFE
+  </script>
+</body>
+</html>
